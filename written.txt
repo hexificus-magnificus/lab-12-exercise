@@ -1,5 +1,19 @@
 ﻿Q3. What happens to the bounding boxes with update + fullRefit?
+the bounding boxes expand as their contained shapes move apart.
+This causes the BVH to become invalid as this expansion may
+catch new shapes inside a bounding box that are not supposed to
+be there.
 
 Q4. What happens with reset (rebuild every frame) instead?
+bounding boxes no longer overlap with bounding boxes from
+other nodes. This causes a correct grouping of shapes in
+the BVH every frame. Frame rate has also significantly
+improved.
 
 Q5. Why are some circles drawn with their sides cut off?
+this is because the BVH ray intersection test only checks
+within the boundaries of the appropriate bounding box. If
+a circle extends past the bounding box, collisions on the
+protruding part will not be detected and will be drawn
+cut off. The circles likely protrude due to off-by-1 errors
+in creating the bounding boxes.
